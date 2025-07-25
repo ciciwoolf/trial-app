@@ -49,6 +49,7 @@ class NASAApiService {
     if (camera) params.camera = camera;
 
     const response = await this.api.get(
+      // `/mars-photos/api/v1/rovers/${rover}/broken`,
       `/mars-photos/api/v1/rovers/${rover}/photos`,
       {
         params,

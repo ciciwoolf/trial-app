@@ -17,7 +17,6 @@ For this demo, I designed the app with the vision of it being used in a Grade 8 
 
 ### Overview Technologies, Familiar and New
 
-
 - React 19 with TypeScript
 - Material-UI (MUI) v5 (I've used Vuetify with Vue, so feels similar)
 - Styling: MUI's styled system + custom theme
@@ -32,7 +31,7 @@ For this demo, I designed the app with the vision of it being used in a Grade 8 
 
 ### Assumptions
 - I envisioned this demo app to be used in a Grade 8 Physical Sciences classroom.
-- Users (students and teachers) have basic familiarity with web navigation.
+- Users (students and teachers) know how to navigate the web.
 - NASA APIs are available, responsive, and do not require authentication for demo purposes.
 - The classroom has internet access.
 - The UI is designed for desktop and modern tablet browsers, but you can access the table on mobile.
@@ -42,3 +41,29 @@ For this demo, I designed the app with the vision of it being used in a Grade 8 
 - CSS better organized; right now there's some inline styling for quicker development
 - Add more functionality to the Data Table
 - Use routing to create a page for the Data Table
+
+### Testing Error States and Empty Data States
+
+Testing Different Error/No Data States:
+
+403
+Comment out the real VITE_NASA_API_KEY.
+Uncomment the VITE_NASA_API_KEY=INVALID_KEY_FOR_TESTING
+
+You see the Nasa Data Error message.
+![Screenshot of NASA Data Error](public/NASA_Data_Error.png)
+
+404
+Corrupt the endpoint (lines 51-57) by uncommenting out the broken endpoint, and commenting out the real endpoint.
+You see the Nasa Data Error message.
+![Screenshot of NASA Data Error](public/NASA_Data_Error.png)
+
+429 
+Change the VITE_NASA_API_KEY value to: DEMO_KEY
+Refresh the page multiple times; Change filters rapidly (rover, sol day, camera) - After ~30 requests, you should hit the limit!
+![Screenshot of NASA API Limit Reached Error](public/API_Limit_Reached.png)
+
+No Data State:
+Put in 99999 for the Sol filter. 
+You should see the empty data state with a message.
+![Screenshot of No Photos Found](public/No_Photos_Found.png)
