@@ -7,8 +7,8 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <Box sx={{ minWidth: '100vw' }}>
-      <AppBar position="fixed">
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <AppBar position="static">
         <Toolbar>
           <Rocket sx={{ mr: 2, fontSize: 30 }} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -16,16 +16,15 @@ export const Layout = ({ children }: LayoutProps) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container
-        maxWidth="xl"
-        className="page-content"
-        sx={{
+      <Container 
+        maxWidth="xl" 
+        sx={{ 
           flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
           justifyContent: 'center',
-          mt: 8, // Add top margin to prevent content from being hidden
+          py: 4
         }}
       >
         {children}
