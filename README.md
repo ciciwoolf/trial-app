@@ -23,13 +23,13 @@ npm start
 
 
 - React 19 with TypeScript
-- Material-UI (MUI) v5
+- Material-UI (MUI) v5 (I've used Vuetify with Vue, so feels similar)
+- Styling: MUI's styled system + custom theme
 - React Context + useReducer (or Redux Toolkit) – NEW
 - Axios
 - React Query/TanStack Query – NEW
 - Routing: React Router v6
 - Form Management: React Hook Form with Yup validation - NEW
-- Styling: MUI's styled system + custom theme
 - Testing: Jest
 - React Testing Library - NEW
 - Build Tool: Vite
