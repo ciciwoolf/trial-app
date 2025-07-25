@@ -1,9 +1,6 @@
 import { useState } from 'react';
-import {DataGrid } from '@mui/x-data-grid';
-import type {
-  GridColDef,
-  GridPaginationModel,
-} from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
+import type { GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import {
   Box,
   Card,
@@ -112,7 +109,7 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
       field: 'camera',
       headerName: 'Camera',
       width: 150,
-      valueGetter: (value, row) => row.camera.name,
+      valueGetter: (_: unknown, row) => row.camera.name,
       renderCell: (params) => (
         <Stack direction="row" spacing={1} alignItems="center">
           <PhotoCamera fontSize="small" />
@@ -124,7 +121,7 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
       field: 'rover',
       headerName: 'Rover',
       width: 120,
-      valueGetter: (value, row) => row.rover.name,
+      valueGetter: (_: unknown, row) => row.rover.name,
       renderCell: (params) => {
         const rover = ROVERS.find(
           (r) => r.value === params.value.toLowerCase()
