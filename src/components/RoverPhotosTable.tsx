@@ -17,9 +17,14 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
-import { PhotoCamera, Visibility, SentimentDissatisfied  } from '@mui/icons-material';
+import {
+  PhotoCamera,
+  Visibility,
+  SentimentDissatisfied,
+} from '@mui/icons-material';
 import { useRoverPhotos } from '../hooks/useRoverPhotos';
 import { LoadingSpinner } from './LoadingSpinner';
+import { PhotoDetailModal } from './PhotoDetailModal';
 import type { RoverPhoto, RoverPhotoFilters } from '../types/nasa';
 
 // https://api.nasa.gov/ - Mars Rover Photos section
@@ -39,11 +44,8 @@ const CAMERAS = [
   { value: 'NAVCAM', label: 'Navigation Camera' },
 ];
 
-interface RoverPhotosTableProps {
-  onPhotoView?: (photo: RoverPhoto) => void;
-}
-
-export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
+// Set default filters
+export const RoverPhotosTable = () => {
   const [filters, setFilters] = useState<RoverPhotoFilters>({
     rover: 'curiosity',
     sol: 1000,
@@ -54,6 +56,9 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
     pageSize: 10,
   });
 
+  const [selectedPhoto, setSelectedPhoto] = useState<RoverPhoto | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
   const { data, isLoading, error, refetch } = useRoverPhotos(filters);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,6 +68,16 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
       [field]: value === '' ? undefined : value,
     }));
     setPaginationModel((prev) => ({ ...prev, page: 0 })); // Reset to first page
+  };
+
+  const handlePhotoView = (photo: RoverPhoto) => {
+    setSelectedPhoto(photo);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedPhoto(null);
   };
 
   const columns: GridColDef[] = [
@@ -76,7 +91,7 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
           src={params.value}
           variant="rounded"
           sx={{ width: 60, height: 60, cursor: 'pointer' }}
-          onClick={() => onPhotoView?.(params.row)}
+          onClick={() => handlePhotoView(params.row)}
         />
       ),
     },
@@ -145,7 +160,7 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
         <Button
           startIcon={<Visibility />}
           size="small"
-          onClick={() => onPhotoView?.(params.row)}
+          onClick={() => handlePhotoView(params.row)}
         >
           View
         </Button>
@@ -177,110 +192,72 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
   }
 
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h5" gutterBottom>
-          🛰️ Mars Rover Photo Explorer
-        </Typography>
+    <>
+      <Card>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            🛰️ Mars Rover Photo Explorer
+          </Typography>
 
-        {/* Filters */}
-        <Box sx={{ mb: 3 }}>
-          <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-            <FormControl sx={{ minWidth: 200 }}>
-              <InputLabel>Rover</InputLabel>
-              <Select
-                value={filters.rover}
-                label="Rover"
-                onChange={(e) => handleFilterChange('rover', e.target.value)}
-              >
-                {ROVERS.map((rover) => (
-                  <MenuItem key={rover.value} value={rover.value}>
-                    {rover.label} ({rover.status})
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          {/* Filters */}
+          <Box sx={{ mb: 3 }}>
+            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel>Rover</InputLabel>
+                <Select
+                  value={filters.rover}
+                  label="Rover"
+                  onChange={(e) => handleFilterChange('rover', e.target.value)}
+                >
+                  {ROVERS.map((rover) => (
+                    <MenuItem key={rover.value} value={rover.value}>
+                      {rover.label} ({rover.status})
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <FormControl sx={{ minWidth: 200 }}>
-              <InputLabel>Camera</InputLabel>
-              <Select
-                value={filters.camera || ''}
-                label="Camera"
-                onChange={(e) => handleFilterChange('camera', e.target.value)}
-              >
-                <MenuItem value="">All Cameras</MenuItem>
-                {CAMERAS.map((camera) => (
-                  <MenuItem key={camera.value} value={camera.value}>
-                    {camera.value} - {camera.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              <FormControl sx={{ minWidth: 200 }}>
+                <InputLabel>Camera</InputLabel>
+                <Select
+                  value={filters.camera || ''}
+                  label="Camera"
+                  onChange={(e) => handleFilterChange('camera', e.target.value)}
+                >
+                  <MenuItem value="">All Cameras</MenuItem>
+                  {CAMERAS.map((camera) => (
+                    <MenuItem key={camera.value} value={camera.value}>
+                      {camera.value} - {camera.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-            <TextField
-              label="Sol Day"
-              type="number"
-              value={filters.sol || ''}
-              onChange={(e) =>
-                handleFilterChange(
-                  'sol',
-                  e.target.value ? parseInt(e.target.value) : undefined
-                )
-              }
-              sx={{ minWidth: 150 }}
-              helperText="Martian day number"
-            />
-
-            <TextField
-              label="Earth Date"
-              type="date"
-              value={filters.earth_date || ''}
-              onChange={(e) => handleFilterChange('earth_date', e.target.value)}
-              sx={{ minWidth: 180 }}
-              InputLabelProps={{ shrink: true }}
-            />
-
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setFilters({ rover: 'curiosity', sol: 1000 });
-                setPaginationModel({ page: 0, pageSize: 10 });
-              }}
-            >
-              Reset Filters
-            </Button>
-          </Stack>
-        </Box>
-
-        {/* Data Grid */}
-        {/* Data Grid */}
-        <Box sx={{ height: 600, maxHeight: '80vh', overflowY: 'auto' }}>
-          {isLoading ? (
-            <LoadingSpinner message="Loading Mars rover photos..." />
-          ) : !data || data.photos.length === 0 ? (
-            // Empty State
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100%',
-                textAlign: 'center',
-              }}
-            >
-              <SentimentDissatisfied
-                sx={{ fontSize: 100, color: 'text.secondary', mb: 2 }}
+              <TextField
+                label="Sol Day"
+                type="number"
+                value={filters.sol || ''}
+                onChange={(e) =>
+                  handleFilterChange(
+                    'sol',
+                    e.target.value ? parseInt(e.target.value) : undefined
+                  )
+                }
+                sx={{ minWidth: 150 }}
+                helperText="Martian day number"
               />
-              <Typography variant="h5" gutterBottom color="text.secondary">
-                No Mars Photos Found
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                No photos available for {filters.rover} rover
-                {filters.sol && ` on Sol ${filters.sol}`}
-                {filters.earth_date && ` on ${filters.earth_date}`}
-                {filters.camera && ` with ${filters.camera} camera`}.
-              </Typography>
+
+              <TextField
+                label="Earth Date"
+                type="date"
+                value={filters.earth_date || ''}
+                onChange={(e) =>
+                  handleFilterChange('earth_date', e.target.value)
+                }
+                sx={{ minWidth: 180 }}
+                InputLabelProps={{ shrink: true }}
+              />
+
               <Button
                 variant="outlined"
                 onClick={() => {
@@ -288,41 +265,92 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
                   setPaginationModel({ page: 0, pageSize: 10 });
                 }}
               >
-                Reset to Default
+                Reset Filters
               </Button>
-            </Box>
-          ) : (
-            // Data Grid with photos
-            <DataGrid
-              rows={data.photos}
-              columns={columns}
-              paginationModel={paginationModel}
-              onPaginationModelChange={setPaginationModel}
-              pageSizeOptions={[10, 25, 50, 100]}
-              disableRowSelectionOnClick
-              sx={{
-                '& .MuiDataGrid-row:hover': {
-                  backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                },
-                '& .MuiDataGrid-cell:focus': {
-                  outline: 'none',
-                },
-              }}
-            />
-          )}
-        </Box>
-
-        {/* Results Info - Only show when we have data */}
-        {data && data.photos.length > 0 && (
-          <Box sx={{ mt: 2, textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
-              Showing {data.photos.length} photos from {filters.rover} rover
-              {filters.sol && ` on Sol ${filters.sol}`}
-              {filters.earth_date && ` on ${filters.earth_date}`}
-            </Typography>
+            </Stack>
           </Box>
-        )}
-      </CardContent>
-    </Card>
+
+          {/* Data Grid */}
+          {/* Data Grid */}
+          <Box sx={{ height: 600, maxHeight: '80vh', overflowY: 'auto' }}>
+            {isLoading ? (
+              <LoadingSpinner message="Loading Mars rover photos..." />
+            ) : !data || data.photos.length === 0 ? (
+              // Empty State
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                  textAlign: 'center',
+                }}
+              >
+                <SentimentDissatisfied
+                  sx={{ fontSize: 100, color: 'text.secondary', mb: 2 }}
+                />
+                <Typography variant="h5" gutterBottom color="text.secondary">
+                  No Mars Photos Found
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                >
+                  No photos available for {filters.rover} rover
+                  {filters.sol && ` on Sol ${filters.sol}`}
+                  {filters.earth_date && ` on ${filters.earth_date}`}
+                  {filters.camera && ` with ${filters.camera} camera`}.
+                </Typography>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setFilters({ rover: 'curiosity', sol: 1000 });
+                    setPaginationModel({ page: 0, pageSize: 10 });
+                  }}
+                >
+                  Reset to Default
+                </Button>
+              </Box>
+            ) : (
+              // Data Grid with photos
+              <DataGrid
+                rows={data.photos}
+                columns={columns}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                pageSizeOptions={[10, 25, 50, 100]}
+                disableRowSelectionOnClick
+                sx={{
+                  '& .MuiDataGrid-row:hover': {
+                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                  },
+                  '& .MuiDataGrid-cell:focus': {
+                    outline: 'none',
+                  },
+                }}
+              />
+            )}
+          </Box>
+
+          {/* Results Info - Only show when we have data */}
+          {data && data.photos.length > 0 && (
+            <Box sx={{ mt: 2, textAlign: 'center' }}>
+              <Typography variant="body2" color="text.secondary">
+                Showing {data.photos.length} photos from {filters.rover} rover
+                {filters.sol && ` on Sol ${filters.sol}`}
+                {filters.earth_date && ` on ${filters.earth_date}`}
+              </Typography>
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+      <PhotoDetailModal
+        photo={selectedPhoto}
+        open={modalOpen}
+        onClose={handleCloseModal}
+      />
+    </>
   );
 };
