@@ -4,8 +4,8 @@ const customColors = {
   richBlack: '#001011',      // --rich-black
   selectiveYellow: '#FFF275', // --selective-yellow  
   orange: '#FF8C42',           // --orange
-  moonstone: '#009fb7',      // --moonstone
-  orangeRed: '#FF3C38',  // --orangeRed
+  blue: '#00EAFF',      // --light-blue
+  orangeRed: '#FF1500',  // --orangeRed
 };
 
 export const customTheme = createTheme({
@@ -27,10 +27,10 @@ export const customTheme = createTheme({
       default: customColors.richBlack,
       paper: customColors.orangeRed,
     },
-    success: { main: customColors.moonstone },
+    success: { main: customColors.blue },
     warning: { main: customColors.selectiveYellow },
     error: { main: '#ff4444' },
-    info: { main: customColors.moonstone },
+    info: { main: customColors.blue },
   },
   typography: {
     fontFamily: '"Orbitron", "Roboto Mono", monospace',
@@ -58,7 +58,6 @@ export const customTheme = createTheme({
       styleOverrides: {
         contained: {
           backgroundImage: `linear-gradient(45deg, ${customColors.orange} 30%, ${customColors.selectiveYellow} 90%)`,
-          boxShadow: `0 3px 5px 2px rgba(255, 182, 10, .3)`,
           '&:hover': {
             backgroundImage: `linear-gradient(45deg, ${customColors.orangeRed} 30%, ${customColors.orange} 90%)`,
           },
