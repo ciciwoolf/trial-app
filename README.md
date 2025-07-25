@@ -64,6 +64,6 @@ Refresh the page multiple times; Change filters rapidly (rover, sol day, camera)
 ![Screenshot of NASA API Limit Reached Error](public/API_Limit_Reached.png)
 
 No Data State:
-Put in 99999 for the Sol filter. 
+Put in 10,000 for the Sol filter. 
 You should see the empty data state with a message.
 ![Screenshot of No Photos Found](public/No_Photos_Found.png)
