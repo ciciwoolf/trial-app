@@ -10,8 +10,9 @@ export const Layout = ({ children }: LayoutProps) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minWidth: '100vw',
+        width: '100vw',
         height: '100vh',
+        overflowX: 'hidden'
       }}
     >
       <AppBar
