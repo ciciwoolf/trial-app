@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Layout } from './components/Layout'
+import { Typography, Card, CardContent, Box, Button } from '@mui/material'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Layout>
+      <Box sx={{ textAlign: 'center', mb: 4 }}>
+        <Typography variant="h3" gutterBottom>
+          NASA Data Explorer
+        </Typography>
+        <Typography variant="h6" color="text.secondary" gutterBottom>
+          Real-time space data and mission analytics
+        </Typography>
+      </Box>
+      
+      <Card sx={{ maxWidth: 600, mx: 'auto' }}>
+        <CardContent sx={{ textAlign: 'center', py: 4 }}>
+          <Typography variant="h5" gutterBottom color="primary">
+            System Status: Online
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            Dashboard initializing...
+          </Typography>
+          <Button variant="contained" size="large">
+            Start Exploring
+          </Button>
+        </CardContent>
+      </Card>
+    </Layout>
   )
 }
 
