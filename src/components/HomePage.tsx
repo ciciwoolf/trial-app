@@ -31,7 +31,7 @@ export const HomePage = () => {
         }}
       >
         <Typography variant="h3" gutterBottom>
-          🛰️ NASA Data Explorer
+          NASA Data Explorer
         </Typography>
         <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
           Real-time space data and mission analytics

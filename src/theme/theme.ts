@@ -1,11 +1,11 @@
 import { createTheme } from '@mui/material/styles';
 
 const customColors = {
-  richBlack: '#000811', // Darker for better contrast
-  brightYellow: '#FFD700', // Gold - better contrast than light yellow
-  deepOrange: '#FF6B35', // Darker orange for readability
-  brightBlue: '#00B4D8', // Darker blue for contrast
-  darkNavy: '#1A1B3E', // Dark navy for card backgrounds
+  richBlack: '#000811',
+  brightYellow: '#FFD700', // Gold
+  deepOrange: '#FF6B35', // Darker orange
+  brightBlue: '#00B4D8', // lighter blue 
+  darkBlue: '#011F5B', // Blue for card backgrounds
   charcoal: '#2D3748', // Medium dark for secondary backgrounds
 };
 
@@ -26,7 +26,7 @@ export const customTheme = createTheme({
     },
     background: {
       default: customColors.richBlack,
-      paper: customColors.darkNavy,
+      paper: customColors.darkBlue,
     },
     success: {
       main: '#10B981',
@@ -84,7 +84,7 @@ export const customTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: customColors.darkNavy,
+          backgroundColor: customColors.darkBlue,
           border: `1px solid ${customColors.deepOrange}`,
           color: '#FFFFFF',
           '&:hover': {

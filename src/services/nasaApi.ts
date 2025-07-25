@@ -44,8 +44,6 @@ class NASAApiService {
     if (earth_date) params.earth_date = earth_date;
     if (camera) params.camera = camera;
 
-    console.log(`Fetching rover photos for ${rover}:`, params);
-
     const response = await this.api.get(
       `/mars-photos/api/v1/rovers/${rover}/photos`,
       {

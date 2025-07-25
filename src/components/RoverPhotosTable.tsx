@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ErrorState, NetworkError, APILimitError } from './ErrorState';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import {
@@ -15,9 +16,8 @@ import {
   Avatar,
   Chip,
   Stack,
-  Alert,
 } from '@mui/material';
-import { PhotoCamera, Visibility, Refresh } from '@mui/icons-material';
+import { PhotoCamera, Visibility } from '@mui/icons-material';
 import { useRoverPhotos } from '../hooks/useRoverPhotos';
 import { LoadingSpinner } from './LoadingSpinner';
 import type { RoverPhoto, RoverPhotoFilters } from '../types/nasa';
@@ -45,12 +45,12 @@ interface RoverPhotosTableProps {
 export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
   const [filters, setFilters] = useState<RoverPhotoFilters>({
     rover: 'curiosity',
-    sol: 1000, // Start with Sol 1000 - good photos available
+    sol: 1000,
   });
 
   const [paginationModel, setPaginationModel] = useState<GridPaginationModel>({
     page: 0,
-    pageSize: 25,
+    pageSize: 10,
   });
 
   const { data, isLoading, error, refetch } = useRoverPhotos(filters);
@@ -129,7 +129,7 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
         return (
           <Chip
             label={params.value}
-            color={rover?.status === 'active' ? 'success' : 'default'}
+            color={rover?.status === 'active' ? 'info' : 'default'}
             size="small"
           />
         );
@@ -154,23 +154,24 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
 
   // Handle errors
   if (error) {
+    // Check error type and show appropriate error
+    const errorMessage = error.message.toLowerCase();
+
+    if (errorMessage.includes('rate limit') || errorMessage.includes('429')) {
+      return <APILimitError onRetry={() => refetch()} />;
+    }
+
+    if (errorMessage.includes('network') || errorMessage.includes('timeout')) {
+      return <NetworkError onRetry={() => refetch()} />;
+    }
+
+    // Generic error fallback
     return (
-      <Card>
-        <CardContent>
-          <Alert
-            severity="error"
-            action={
-              <Button color="inherit" size="small" onClick={() => refetch()}>
-                <Refresh />
-              </Button>
-            }
-          >
-            <Typography variant="h6">NASA Connection Failed</Typography>
-            Unable to load rover photos. This could be due to network issues or
-            NASA API limits.
-          </Alert>
-        </CardContent>
-      </Card>
+      <ErrorState
+        title="NASA Data Error"
+        message="Unable to load rover photos. Please try again."
+        onRetry={() => refetch()}
+      />
     );
   }
 
@@ -242,7 +243,7 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
               variant="outlined"
               onClick={() => {
                 setFilters({ rover: 'curiosity', sol: 1000 });
-                setPaginationModel({ page: 0, pageSize: 25 });
+                setPaginationModel({ page: 0, pageSize: 10 });
               }}
             >
               Reset Filters
@@ -260,7 +261,7 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
               columns={columns}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
-              pageSizeOptions={[25, 50, 100]}
+              pageSizeOptions={[10, 25, 50, 100]}
               disableRowSelectionOnClick
               sx={{
                 '& .MuiDataGrid-row:hover': {

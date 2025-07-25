@@ -30,8 +30,15 @@ For this demo, I designed the app with the vision of it being used in a Grade 8 
 - React Testing Library - NEW
 - Build Tool: Vite
 
-
-### Any assumptions you’ve made
-
+### Assumptions
+- I envisioned this demo app to be used in a Grade 8 Physical Sciences classroom.
+- Users (students and teachers) have basic familiarity with web navigation.
+- NASA APIs are available, responsive, and do not require authentication for demo purposes.
+- The classroom has internet access.
+- The UI is designed for desktop and modern tablet browsers, but you can access the table on mobile.
 
 ### Improvements for Future Iterations
+- Color palette should be improved with help of a designer
+- CSS better organized; right now there's some inline styling for quicker development
+- Add more functionality to the Data Table
+- Use routing to create a page for the Data Table
