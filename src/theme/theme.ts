@@ -1,66 +1,82 @@
 import { createTheme } from '@mui/material/styles';
 
 const customColors = {
-  richBlack: '#001011',      // --rich-black
-  selectiveYellow: '#FFF275', // --selective-yellow  
-  orange: '#FF8C42',           // --orange
-  moonstone: '#009fb7',      // --moonstone
-  orangeRed: '#FF3C38',  // --orangeRed
+  richBlack: '#000811', // Darker for better contrast
+  brightYellow: '#FFD700', // Gold - better contrast than light yellow
+  deepOrange: '#FF6B35', // Darker orange for readability
+  brightBlue: '#00B4D8', // Darker blue for contrast
+  darkNavy: '#1A1B3E', // Dark navy for card backgrounds
+  charcoal: '#2D3748', // Medium dark for secondary backgrounds
 };
 
 export const customTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: customColors.selectiveYellow, // Bright yellow as primary
-      light: '#ffca42',
-      dark: '#cc9108',
+      main: customColors.brightYellow,
+      light: '#FFED4E',
+      dark: '#B8860B',
       contrastText: customColors.richBlack,
     },
     secondary: {
-      main: customColors.orange,
-      light: '#8b6fd9',
-      dark: '#4a2e97',
-      contrastText: '#ffffff',
+      main: customColors.deepOrange,
+      light: '#FF8A50',
+      dark: '#E55100',
+      contrastText: '#FFFFFF',
     },
     background: {
       default: customColors.richBlack,
-      paper: customColors.orangeRed,
+      paper: customColors.darkNavy,
     },
-    success: { main: customColors.moonstone },
-    warning: { main: customColors.selectiveYellow },
-    error: { main: '#ff4444' },
-    info: { main: customColors.moonstone },
+    success: {
+      main: '#10B981',
+      contrastText: '#FFFFFF',
+    },
+    warning: {
+      main: customColors.brightYellow,
+      contrastText: customColors.richBlack,
+    },
+    error: {
+      main: '#EF4444',
+      contrastText: '#FFFFFF',
+    },
+    info: {
+      main: customColors.brightBlue,
+      contrastText: '#FFFFFF',
+    },
   },
   typography: {
     fontFamily: '"Orbitron", "Roboto Mono", monospace',
-    h1: { 
-      fontWeight: 700, 
+    h1: {
+      fontWeight: 700,
       letterSpacing: '0.02em',
-      color: customColors.selectiveYellow,
+      color: customColors.brightYellow,
     },
-    h2: { 
-      fontWeight: 600, 
+    h2: {
+      fontWeight: 600,
       letterSpacing: '0.01em',
-      color: customColors.orange,
+      color: '#FFFFFF',
     },
     h6: {
       fontWeight: 600,
-      color: customColors.selectiveYellow,
+      color: customColors.brightYellow,
     },
     body1: {
       fontFamily: '"Inter", "Roboto", sans-serif',
-      color: '#ffffff',
+      color: '#F7FAFC',
     },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         contained: {
-          backgroundImage: `linear-gradient(45deg, ${customColors.orange} 30%, ${customColors.selectiveYellow} 90%)`,
-          boxShadow: `0 3px 5px 2px rgba(255, 182, 10, .3)`,
+          backgroundColor: customColors.deepOrange,
+          color: '#FFFFFF',
+          border: `2px solid ${customColors.brightYellow}`,
           '&:hover': {
-            backgroundImage: `linear-gradient(45deg, ${customColors.orangeRed} 30%, ${customColors.orange} 90%)`,
+            backgroundColor: customColors.brightYellow,
+            color: customColors.richBlack,
+            border: `2px solid ${customColors.deepOrange}`,
           },
         },
       },
@@ -68,10 +84,12 @@ export const customTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundImage: `linear-gradient(135deg, ${customColors.orangeRed} 0%, ${customColors.orange} 100%)`,
-          border: `1px solid rgba(255, 182, 10, 0.3)`,
+          backgroundColor: customColors.darkNavy,
+          border: `1px solid ${customColors.deepOrange}`,
+          color: '#FFFFFF',
           '&:hover': {
-            border: `1px solid rgba(255, 182, 10, 0.6)`,
+            border: `1px solid ${customColors.brightYellow}`,
+            boxShadow: `0 4px 20px rgba(255, 215, 0, 0.3)`,
           },
         },
       },
@@ -79,7 +97,17 @@ export const customTheme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundImage: `linear-gradient(90deg, ${customColors.orangeRed} 0%, ${customColors.orange} 50%, ${customColors.orangeRed} 100%)`,
+          backgroundColor: customColors.charcoal,
+          borderBottom: `2px solid ${customColors.deepOrange}`,
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          '&.MuiTypography-h5': {
+            color: customColors.brightYellow,
+          },
         },
       },
     },
