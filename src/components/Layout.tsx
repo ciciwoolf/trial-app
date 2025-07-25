@@ -10,8 +10,7 @@ export const Layout = ({ children }: LayoutProps) => {
     <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: '100vw', height: '100vh' }}>
       <AppBar position="static">
         <Toolbar>
-          <Rocket sx={{ mr: 2, fontSize: 30 }} />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ textAlign: 'center', flexGrow: 1 }}>
             🛰️ NASA Data Explorer
           </Typography>
         </Toolbar>
