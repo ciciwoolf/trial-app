@@ -2,10 +2,10 @@ import { createTheme } from '@mui/material/styles';
 
 const customColors = {
   richBlack: '#001011',      // --rich-black
-  selectiveYellow: '#ffb60a', // --selective-yellow  
-  iris: '#613dc1',           // --iris
+  selectiveYellow: '#FFF275', // --selective-yellow  
+  orange: '#FF8C42',           // --orange
   moonstone: '#009fb7',      // --moonstone
-  russianViolet: '#20063b',  // --russian-violet
+  orangeRed: '#FF3C38',  // --orangeRed
 };
 
 export const customTheme = createTheme({
@@ -18,16 +18,16 @@ export const customTheme = createTheme({
       contrastText: customColors.richBlack,
     },
     secondary: {
-      main: customColors.iris,           // Purple as secondary
+      main: customColors.orange,
       light: '#8b6fd9',
       dark: '#4a2e97',
       contrastText: '#ffffff',
     },
     background: {
-      default: customColors.richBlack,   // Deep black background
-      paper: customColors.russianViolet, // Dark purple for cards
+      default: customColors.richBlack,
+      paper: customColors.orangeRed,
     },
-    success: { main: customColors.moonstone }, // Teal for success
+    success: { main: customColors.moonstone },
     warning: { main: customColors.selectiveYellow },
     error: { main: '#ff4444' },
     info: { main: customColors.moonstone },
@@ -42,7 +42,7 @@ export const customTheme = createTheme({
     h2: { 
       fontWeight: 600, 
       letterSpacing: '0.01em',
-      color: customColors.iris,
+      color: customColors.orange,
     },
     h6: {
       fontWeight: 600,
@@ -57,10 +57,10 @@ export const customTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         contained: {
-          backgroundImage: `linear-gradient(45deg, ${customColors.iris} 30%, ${customColors.selectiveYellow} 90%)`,
+          backgroundImage: `linear-gradient(45deg, ${customColors.orange} 30%, ${customColors.selectiveYellow} 90%)`,
           boxShadow: `0 3px 5px 2px rgba(255, 182, 10, .3)`,
           '&:hover': {
-            backgroundImage: `linear-gradient(45deg, ${customColors.russianViolet} 30%, ${customColors.iris} 90%)`,
+            backgroundImage: `linear-gradient(45deg, ${customColors.orangeRed} 30%, ${customColors.orange} 90%)`,
           },
         },
       },
@@ -68,7 +68,7 @@ export const customTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundImage: `linear-gradient(135deg, ${customColors.russianViolet} 0%, ${customColors.iris} 100%)`,
+          backgroundImage: `linear-gradient(135deg, ${customColors.orangeRed} 0%, ${customColors.orange} 100%)`,
           border: `1px solid rgba(255, 182, 10, 0.3)`,
           '&:hover': {
             border: `1px solid rgba(255, 182, 10, 0.6)`,
@@ -79,7 +79,7 @@ export const customTheme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundImage: `linear-gradient(90deg, ${customColors.russianViolet} 0%, ${customColors.iris} 50%, ${customColors.russianViolet} 100%)`,
+          backgroundImage: `linear-gradient(90deg, ${customColors.orangeRed} 0%, ${customColors.orange} 50%, ${customColors.orangeRed} 100%)`,
         },
       },
     },
