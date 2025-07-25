@@ -1,11 +1,18 @@
-/* Reset only */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100vh;
-  font-family: 'Inter', sans-serif;
+html,
+body,
+#root {
+  min-height: 100vh;
+  background-color: #000811; /* Theme's black color */
+}
+
+/* Ensure content can scroll beyond viewport */
+.page-content {
+  min-height: 100vh;
+  padding: 2rem 0;
 }
