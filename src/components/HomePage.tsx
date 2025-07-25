@@ -5,7 +5,7 @@ export const HomePage = () => {
   return (
     <>
       <FallingStars />
-      <Box sx={{ textAlign: 'center', maxWidth: 600, width: '100%' }}>
+      <Box sx={{ textAlign: 'center', maxWidth: 600, width: '100%', position: 'relative', zIndex:1 }}>
         <Typography variant="h3" gutterBottom>
           🛰️ NASA Data Explorer
         </Typography>

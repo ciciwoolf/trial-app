@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: '100vw', height: '100vh' }}>
       <AppBar position="static">
         <Toolbar>
           <Rocket sx={{ mr: 2, fontSize: 30 }} />
