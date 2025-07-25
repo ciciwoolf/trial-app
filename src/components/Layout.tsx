@@ -1,5 +1,4 @@
 import { AppBar, Toolbar, Typography, Container, Box } from '@mui/material';
-import { Rocket } from '@mui/icons-material';
 
 interface LayoutProps {
   children: React.ReactNode;
