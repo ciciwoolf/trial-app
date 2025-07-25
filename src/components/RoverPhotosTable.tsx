@@ -17,11 +17,12 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
-import { PhotoCamera, Visibility } from '@mui/icons-material';
+import { PhotoCamera, Visibility, SentimentDissatisfied  } from '@mui/icons-material';
 import { useRoverPhotos } from '../hooks/useRoverPhotos';
 import { LoadingSpinner } from './LoadingSpinner';
 import type { RoverPhoto, RoverPhotoFilters } from '../types/nasa';
 
+// https://api.nasa.gov/ - Mars Rover Photos section
 const ROVERS = [
   { value: 'curiosity', label: 'Curiosity', status: 'active' },
   { value: 'opportunity', label: 'Opportunity', status: 'complete' },
@@ -252,12 +253,48 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
         </Box>
 
         {/* Data Grid */}
+        {/* Data Grid */}
         <Box sx={{ height: 600, maxHeight: '80vh', overflowY: 'auto' }}>
           {isLoading ? (
             <LoadingSpinner message="Loading Mars rover photos..." />
+          ) : !data || data.photos.length === 0 ? (
+            // Empty State
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                textAlign: 'center',
+              }}
+            >
+              <SentimentDissatisfied
+                sx={{ fontSize: 100, color: 'text.secondary', mb: 2 }}
+              />
+              <Typography variant="h5" gutterBottom color="text.secondary">
+                No Mars Photos Found
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                No photos available for {filters.rover} rover
+                {filters.sol && ` on Sol ${filters.sol}`}
+                {filters.earth_date && ` on ${filters.earth_date}`}
+                {filters.camera && ` with ${filters.camera} camera`}.
+              </Typography>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setFilters({ rover: 'curiosity', sol: 1000 });
+                  setPaginationModel({ page: 0, pageSize: 10 });
+                }}
+              >
+                Reset to Default
+              </Button>
+            </Box>
           ) : (
+            // Data Grid with photos
             <DataGrid
-              rows={data?.photos || []}
+              rows={data.photos}
               columns={columns}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
@@ -275,8 +312,8 @@ export const RoverPhotosTable = ({ onPhotoView }: RoverPhotosTableProps) => {
           )}
         </Box>
 
-        {/* Results Info */}
-        {data && (
+        {/* Results Info - Only show when we have data */}
+        {data && data.photos.length > 0 && (
           <Box sx={{ mt: 2, textAlign: 'center' }}>
             <Typography variant="body2" color="text.secondary">
               Showing {data.photos.length} photos from {filters.rover} rover

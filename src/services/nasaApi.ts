@@ -3,7 +3,6 @@ import type { AxiosResponse } from 'axios';
 import type {
   RoverPhotosResponse,
   RoverPhotoFilters,
-  APODData,
   NASAApiError,
 } from '../types/nasa';
 
@@ -19,10 +18,16 @@ class NASAApiService {
   });
 
   constructor() {
-    // Add response interceptor for error handling
+    // Add response interceptor - catches all axios errors
     this.api.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error) => {
+        console.error('NASA API Error:', {
+          url: error.config?.url,
+          status: error.response?.status,
+          message: error.message,
+          timestamp: new Date().toISOString(),
+        });
         throw this.handleError(error);
       }
     );
@@ -33,7 +38,6 @@ class NASAApiService {
   ): Promise<RoverPhotosResponse> {
     const { rover, sol, earth_date, camera, page = 1 } = filters;
 
-     
     const params: any = {
       api_key: API_KEY,
       page,
@@ -51,14 +55,6 @@ class NASAApiService {
       }
     );
 
-    return response.data;
-  }
-
-  async getAPOD(date?: string): Promise<APODData> {
-    const params: any = { api_key: API_KEY };
-    if (date) params.date = date;
-
-    const response = await this.api.get('/planetary/apod', { params });
     return response.data;
   }
 

@@ -34,18 +34,6 @@ export interface RoverPhotoFilters {
   page?: number;
 }
 
-// APOD API Types
-export interface APODData {
-  date: string;
-  explanation: string;
-  hdurl?: string;
-  media_type: 'image' | 'video';
-  service_version: string;
-  title: string;
-  url: string;
-  copyright?: string;
-}
-
 // Error Types
 export interface NASAApiError {
   message: string;
