@@ -5,9 +5,6 @@ import {
   Button,
   Box,
   Typography,
-  // Card,
-  // CardContent,
-  Chip,
   IconButton,
   Stack,
 } from '@mui/material';
@@ -17,9 +14,6 @@ import {
   Share,
   Favorite,
   FavoriteBorder,
-  PhotoCamera,
-  CalendarToday,
-  Rocket,
   ZoomIn,
   ZoomOut,
 } from '@mui/icons-material';
@@ -67,7 +61,7 @@ export const PhotoDetailModal = ({
       maxWidth={false}
       sx={{
         '& .MuiPaper-root': {
-          width: { xs: '95vw', sm: '90vw', md: '80vw' },
+          width: { xs: '100vw', sm: '90vw', md: '80vw' },
           height: { xs: '90vh', sm: '85vh', md: '80vh' },
           maxWidth: '100vw',
           maxHeight: '100vh',
@@ -76,7 +70,7 @@ export const PhotoDetailModal = ({
           borderRadius: 2,
           display: 'flex',
           flexDirection: 'column',
-          overflow: 'hidden', // prevent modal overflow
+          overflowY: { xs: 'auto', md: 'hidden' }, // scroll entire modal on mobile
         },
       }}
     >
@@ -105,15 +99,16 @@ export const PhotoDetailModal = ({
           flexDirection: { xs: 'column', md: 'row' },
           gap: 3,
           p: 3,
-          overflow: 'auto', // always allow scroll if needed, but not overflow
+          overflow: { xs: 'visible', md: 'hidden' }, // remove inner scroll on mobile
           maxWidth: '100%',
+          minWidth: 0,
         }}
       >
         {/* LEFT BOX - Photo (50% on desktop, full width on mobile) */}
         <Box
           sx={{
             flex: { xs: '0 0 auto', md: '0 0 50%' },
-            minHeight: { xs: '300px', md: 'auto' },
+            minHeight: { xs: '200px', md: 'auto' },
             position: 'relative',
             backgroundColor: 'black',
             borderRadius: 1,
@@ -128,9 +123,12 @@ export const PhotoDetailModal = ({
             src={photo.img_src}
             alt={`Mars photo from ${photo.rover.name} rover`}
             style={{
+              width: '100%',
+              height: '350px',
               maxWidth: '100%',
-              maxHeight: '100%',
+              maxHeight: '350px',
               objectFit: 'contain',
+              background: 'black',
               transform: `scale(${zoom})`,
               transition: 'transform 0.3s ease',
               cursor: zoom > 1 ? 'zoom-out' : 'zoom-in',
@@ -180,19 +178,22 @@ export const PhotoDetailModal = ({
         >
           {[
             {
-              title: '📷 Camera Details',
+              title: 'Camera Details',
               titleColor: 'secondary',
-              content: 'test',
+              content1: `Name: ${photo.camera?.name} (${photo.camera?.name})`,
+              content2: `Rover ID: ${photo.camera?.rover_id}`,
             },
             {
-              title: '📊 Photo Details',
+              title: 'Photo Details',
               titleColor: 'primary',
-              content: 'test',
+              content1: `Sol Day: ${photo.sol}`,
+              content2: `Earth Day: ${photo.earth_date}`,
             },
             {
-              title: '🤖 Rover Information',
+              title: 'Rover Information',
               titleColor: 'success.main',
-              content: 'test',
+              content1: `Name: ${photo.rover?.name}`,
+              content2: `Landing Date: ${photo.rover?.landing_date}`,
             },
           ].map((section, index) => (
             <Box
@@ -205,10 +206,10 @@ export const PhotoDetailModal = ({
                 borderRadius: 1,
                 p: 3,
                 minWidth: 0,
-                minHeight: 0,
+                minHeight: '150px',
                 maxWidth: '100%',
                 overflow: 'hidden',
-                mr: 0, // remove right margin
+                mr: { xs: 0, md: 2 },
               }}
             >
               <Typography variant="h6" gutterBottom color={section.titleColor}>
@@ -218,8 +219,17 @@ export const PhotoDetailModal = ({
                 variant="body1"
                 gutterBottom
                 color={section.titleColor}
+                sx={{ fontSize: { xs: '12px', sm: '16px' } }}
               >
-                {section.content}
+                {section.content1}
+              </Typography>
+              <Typography
+                variant="body1"
+                gutterBottom
+                color={section.titleColor}
+                sx={{ fontSize: { xs: '12px', sm: '16px' } }}
+              >
+                {section.content2}
               </Typography>
             </Box>
           ))}
@@ -229,24 +239,27 @@ export const PhotoDetailModal = ({
       {/* Footer Actions */}
       <DialogActions sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
         <Stack
-          direction="row"
+          direction={{ xs: 'column', sm: 'row' }}
           spacing={2}
-          sx={{ width: '100%', justifyContent: 'space-between' }}
+          sx={{
+            width: '100%',
+            justifyContent: 'flex-end',
+            alignItems: { xs: 'stretch', sm: 'center' },
+          }}
         >
-          <Button
-            startIcon={isFavorite ? <Favorite /> : <FavoriteBorder />}
-            onClick={() => setIsFavorite(!isFavorite)}
-            color={isFavorite ? 'error' : 'inherit'}
-            variant={isFavorite ? 'contained' : 'outlined'}
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={1}
+            sx={{
+              width: { xs: '100%', sm: 'auto' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+            }}
           >
-            {isFavorite ? 'Favorited' : 'Favorite'}
-          </Button>
-
-          <Stack direction="row" spacing={1}>
             <Button
               startIcon={<Share />}
               onClick={handleShare}
               variant="outlined"
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               Share
             </Button>
@@ -254,10 +267,15 @@ export const PhotoDetailModal = ({
               startIcon={<Download />}
               onClick={handleDownload}
               variant="outlined"
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               Download
             </Button>
-            <Button variant="contained" onClick={onClose}>
+            <Button
+              variant="contained"
+              onClick={onClose}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
               Close
             </Button>
           </Stack>
