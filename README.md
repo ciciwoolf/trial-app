@@ -13,7 +13,7 @@ npm start
 
 ### Description of Approach and Design Decisions
 
-For this demo, I designed the app with the vision of it being used in a Grade 8 Physical Sciences classroom. My goal was to create an interface that is visually engaging, easy to navigate, and accessible for both students and teachers. By leveraging live data from NASA APIs, the app aims to make space science interactive and relevant, supporting classroom learning with real-world data and fostering curiosity about science and technology.
+For this demo, I designed the app with the vision of it being used in a middle school Physical Sciences classroom. My goal was to create an interface that is visually engaging, easy to navigate, and accessible for both students and teachers. By leveraging live data from NASA APIs, the app aims to make space science interactive and relevant, supporting classroom learning with real-world data and fostering curiosity about science and technology.
 
 ### Overview Technologies, Familiar and New
 
