@@ -409,7 +409,7 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
           >
             {isLoading ? (
               <LoadingSpinner message="Loading Mars rover photos..." />
-            ) : !data || data.photos.length === 0 ? (
+            ) : !data || data.photos?.length === 0 ? (
               // Empty State
               <Box
                 sx={{
