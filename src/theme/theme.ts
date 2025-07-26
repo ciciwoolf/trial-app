@@ -29,8 +29,8 @@ export const customTheme = createTheme({
       paper: customColors.darkBlue,
     },
     success: {
-      main: '#10B981',
-      contrastText: '#FFFFFF',
+      main: '#00B4D8',
+      contrastText: customColors.white,
     },
     warning: {
       main: customColors.white,
@@ -38,11 +38,11 @@ export const customTheme = createTheme({
     },
     error: {
       main: '#EF4444',
-      contrastText: '#FFFFFF',
+      contrastText: customColors.white,
     },
     info: {
       main: customColors.brightBlue,
-      contrastText: '#FFFFFF',
+      contrastText: customColors.white,
     },
   },
   typography: {

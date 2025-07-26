@@ -188,7 +188,7 @@ export const PhotoDetailModal = ({
             },
             {
               title: 'Rover Information',
-              titleColor: 'success.main',
+              titleColor: 'success',
               content1: `Name: ${photo.rover?.name}`,
               content2: `Landing Date: ${photo.rover?.landing_date}`,
             },
