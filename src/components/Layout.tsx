@@ -1,4 +1,11 @@
-import { AppBar, Toolbar, Typography, Container, Box, Link } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  Box,
+  Link,
+} from '@mui/material';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,7 +20,9 @@ export const Layout = ({ children }: LayoutProps) => {
         width: '100vw',
         height: '100vh',
         overflowX: 'hidden',
-        overflowY: 'auto'
+        overflowY: 'auto',
+        backgroundImage:
+          'linear-gradient(to bottom, #000811, #001122, #000d1a, #000508)',
       }}
     >
       <AppBar
@@ -56,20 +65,22 @@ export const Layout = ({ children }: LayoutProps) => {
           zIndex: 1,
         }}
       >
-
-            <Container maxWidth="lg">
-          <Typography 
-            variant="body2" 
-            color="text.secondary" 
+        <Container maxWidth="lg">
+          <Typography
+            variant="body2"
+            color="text.secondary"
             sx={{ textAlign: 'center' }}
           >
             Built by{' '}
-            <Link 
-              href="https://linkedin.com/in/christinewoolf" 
-              target="_blank" 
+            <Link
+              href="https://linkedin.com/in/christinewoolf"
+              target="_blank"
               rel="noopener noreferrer"
               color="primary"
-              sx={{ textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}
+              sx={{
+                textDecoration: 'none',
+                '&:hover': { textDecoration: 'underline' },
+              }}
             >
               Christine Woolf
             </Link>

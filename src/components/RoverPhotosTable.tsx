@@ -123,7 +123,7 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
         renderCell: (params) => (
           <Chip
             label={`Sol ${params.value}`}
-            color="primary"
+            color="secondary"
             variant="outlined"
             size={isMobile ? 'small' : 'small'}
           />
@@ -266,7 +266,7 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
               🛰️ Mars Rover Photo Explorer
             </Typography>
             <Button
-              variant="outlined"
+              variant="contained"
               onClick={onReset}
               startIcon={<Home />}
               size="small"
