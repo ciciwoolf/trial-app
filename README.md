@@ -2,9 +2,7 @@
 
 ### Setup and Installation
 
-For a fast preview, click this link: https://trial-app-git-main-ciciwoolfs-projects.vercel.app
-
-Otherwise, clone this repo and run:
+Clone this repo and run:
 
 ```
 npm i
