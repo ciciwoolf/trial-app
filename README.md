@@ -37,7 +37,7 @@ I designed this demo app with the vision of it being used in a middle school Phy
 - Color palette and UI flow should be improved with the help of a designer
 - CSS should be better organized; right now I'm using a 'Tailwind CSS' approach, using MUI sx prop for inline styling
 - Possibly use Routing to create separate pages
--Send Mission plans somewhere to be printed, etc.
+- Send Mission plans somewhere to be printed, etc.
 
 ### Testing Error States and Empty Data States
 
