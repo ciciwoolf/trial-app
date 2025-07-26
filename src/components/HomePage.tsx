@@ -49,6 +49,10 @@ export const HomePage = () => {
     }, 100);
   };
 
+  const handleResetTable = () => {
+    setShowTable(false);
+  };
+
   const handleOpenMissionPlanning = () => {
     setShowMissionModal(true);
   };
@@ -146,7 +150,7 @@ export const HomePage = () => {
               zIndex: 1,
             }}
           >
-            <RoverPhotosTable />
+            <RoverPhotosTable onReset={handleResetTable} />
           </Box>
         </Fade>
       )}

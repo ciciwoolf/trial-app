@@ -21,6 +21,7 @@ import {
   PhotoCamera,
   Visibility,
   SentimentDissatisfied,
+  Home,
 } from '@mui/icons-material';
 import { useRoverPhotos } from '../hooks/useRoverPhotos';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -44,8 +45,12 @@ const CAMERAS = [
   { value: 'NAVCAM', label: 'Navigation Camera' },
 ];
 
+interface RoverPhotosTableProps {
+  onReset?: () => void;
+}
+
 // Set default filters
-export const RoverPhotosTable = () => {
+export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
   const [filters, setFilters] = useState<RoverPhotoFilters>({
     rover: 'curiosity',
     sol: 1000,
@@ -195,9 +200,29 @@ export const RoverPhotosTable = () => {
     <>
       <Card>
         <CardContent>
-          <Typography variant="h5" gutterBottom>
-            🛰️ Mars Rover Photo Explorer
-          </Typography>
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            justifyContent="space-between"
+            alignItems={{ xs: 'stretch', sm: 'center' }}
+            spacing={{ xs: 2, sm: 0 }}
+            sx={{ mb: 2 }}
+          >
+            <Typography
+              variant="h5"
+              sx={{ textAlign: { xs: 'center', sm: 'left' } }}
+            >
+              🛰️ Mars Rover Photo Explorer
+            </Typography>
+            <Button
+              variant="outlined"
+              onClick={onReset}
+              startIcon={<Home />}
+              size="small"
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
+              Return to Dashboard
+            </Button>
+          </Stack>
 
           {/* Filters */}
           <Box sx={{ mb: 3 }}>
