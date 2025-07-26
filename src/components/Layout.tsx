@@ -12,7 +12,8 @@ export const Layout = ({ children }: LayoutProps) => {
         flexDirection: 'column',
         width: '100vw',
         height: '100vh',
-        overflowX: 'hidden'
+        overflowX: 'hidden',
+        overflowY: 'auto'
       }}
     >
       <AppBar
@@ -30,7 +31,7 @@ export const Layout = ({ children }: LayoutProps) => {
         </Toolbar>
       </AppBar>
       <Container
-        maxWidth="xl"
+        maxWidth="lg"
         sx={{
           flex: 1,
           display: 'flex',
@@ -56,7 +57,7 @@ export const Layout = ({ children }: LayoutProps) => {
         }}
       >
 
-            <Container maxWidth="xl">
+            <Container maxWidth="lg">
           <Typography 
             variant="body2" 
             color="text.secondary" 

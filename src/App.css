@@ -8,7 +8,7 @@ html,
 body,
 #root {
   min-height: 100vh;
-  background-color: #000811; /* Theme's black color */
+  background-color: #000811;
 }
 
 /* Ensure content can scroll beyond viewport */
