@@ -2,18 +2,18 @@ import { createTheme } from '@mui/material/styles';
 
 const customColors = {
   richBlack: '#000811',
-  brightYellow: '#FFD700', // Gold
-  deepOrange: '#FF6B35', // Darker orange
-  brightBlue: '#00B4D8', // lighter blue 
-  darkBlue: '#011F5B', // Blue for card backgrounds
-  charcoal: '#2D3748', // Medium dark for secondary backgrounds
+  white: '#FFFFFF',
+  deepOrange: '#FF6B35',
+  brightBlue: '#00B4D8',
+  darkBlue: '#011F5B',
+  charcoal: '#2D3748',
 };
 
 export const customTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: customColors.brightYellow,
+      main: customColors.white,
       light: '#FFED4E',
       dark: '#B8860B',
       contrastText: customColors.richBlack,
@@ -33,7 +33,7 @@ export const customTheme = createTheme({
       contrastText: '#FFFFFF',
     },
     warning: {
-      main: customColors.brightYellow,
+      main: customColors.white,
       contrastText: customColors.richBlack,
     },
     error: {
@@ -50,20 +50,20 @@ export const customTheme = createTheme({
     h1: {
       fontWeight: 700,
       letterSpacing: '0.02em',
-      color: customColors.brightYellow,
+      color: customColors.white,
     },
     h2: {
       fontWeight: 600,
       letterSpacing: '0.01em',
-      color: '#FFFFFF',
+      color: customColors.white,
     },
     h6: {
       fontWeight: 600,
-      color: customColors.brightYellow,
+      color: customColors.white,
     },
     body1: {
       fontFamily: '"Inter", "Roboto", sans-serif',
-      color: '#F7FAFC',
+      color: customColors.white,
     },
   },
   components: {
@@ -71,10 +71,20 @@ export const customTheme = createTheme({
       styleOverrides: {
         contained: {
           backgroundColor: customColors.deepOrange,
-          color: '#FFFFFF',
-          border: `2px solid ${customColors.brightYellow}`,
+          color: customColors.white,
+          border: `1px solid ${customColors.white}`,
           '&:hover': {
-            backgroundColor: customColors.brightYellow,
+            backgroundColor: customColors.white,
+            color: customColors.richBlack,
+            border: `2px solid ${customColors.deepOrange}`,
+          },
+        },
+        outlined: {
+          backgroundColor: customColors.brightBlue,
+          color: customColors.white,
+          border: `1px solid ${customColors.white}`,
+          '&:hover': {
+            backgroundColor: customColors.white,
             color: customColors.richBlack,
             border: `2px solid ${customColors.deepOrange}`,
           },
@@ -84,13 +94,22 @@ export const customTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: customColors.darkBlue,
+          backgroundImage:
+            'linear-gradient(to right top, #011f5b, #011c57, #011a54, #001750, #00154d)',
           border: `1px solid ${customColors.deepOrange}`,
           color: '#FFFFFF',
           '&:hover': {
-            border: `1px solid ${customColors.brightYellow}`,
+            border: `1px solid ${customColors.white}`,
             boxShadow: `0 4px 20px rgba(255, 215, 0, 0.3)`,
           },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage:
+            'linear-gradient(to right top, #011f5b, #011c57, #011a54, #001750, #00154d)',
         },
       },
     },
@@ -106,7 +125,7 @@ export const customTheme = createTheme({
       styleOverrides: {
         root: {
           '&.MuiTypography-h5': {
-            color: customColors.brightYellow,
+            color: customColors.white,
           },
         },
       },
