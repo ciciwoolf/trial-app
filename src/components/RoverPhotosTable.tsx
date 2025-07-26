@@ -13,6 +13,7 @@ import {
   FormControl,
   InputLabel,
   Button,
+  IconButton,
   Avatar,
   Chip,
   Stack,
@@ -198,6 +199,25 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
           </Button>
         ),
       });
+    } else {
+      // On mobile/tablet, add a compact view action
+      baseColumns.push({
+        field: 'actions',
+        headerName: 'View',
+        width: 80,
+        sortable: false,
+        renderCell: (params) => (
+          <IconButton
+            size="small"
+            onClick={() => handlePhotoView(params.row)}
+            sx={{
+              padding: '4px',
+            }}
+          >
+            <Visibility />
+          </IconButton>
+        ),
+      });
     }
 
     return baseColumns;
@@ -365,8 +385,26 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
               height: { xs: 500, sm: 550, md: 600 },
               maxHeight: '80vh',
               overflowY: 'auto',
+              overflowX: { xs: 'auto', sm: 'auto', md: 'hidden' }, // Only enable horizontal scroll on mobile/tablet
               // Better touch scrolling on mobile
               WebkitOverflowScrolling: 'touch',
+              // Custom scrollbar styling using theme
+              scrollbarWidth: 'thin',
+              '&::-webkit-scrollbar': {
+                height: '8px',
+                width: '8px',
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: (theme) => theme.palette.primary.main + '99', // 60% opacity
+                borderRadius: '4px',
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.primary.main + 'CC', // 80% opacity
+                },
+              },
             }}
           >
             {isLoading ? (
@@ -420,6 +458,12 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                 disableRowSelectionOnClick
                 rowHeight={isMobile ? 70 : isTablet ? 65 : 60}
                 sx={{
+                  // Force minimum width on mobile to enable horizontal scrolling
+                  minWidth: { xs: '650px', sm: '700px', md: 'auto' },
+                  width: { xs: '650px', sm: '700px', md: '100%' },
+                  '& .MuiDataGrid-main': {
+                    minWidth: { xs: '650px', sm: '700px', md: 'auto' },
+                  },
                   '& .MuiDataGrid-row:hover': {
                     backgroundColor: 'rgba(255, 215, 0, 0.1)',
                   },
@@ -436,18 +480,42 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                   },
                   // Better touch targets on mobile/tablet
                   '& .MuiDataGrid-row': {
-                    cursor: isTablet ? 'pointer' : 'default',
+                    cursor: isTablet && !isMobile ? 'pointer' : 'default',
                   },
-                  // Hide scrollbars on mobile for cleaner look
+                  // Enhanced touch scrolling
                   '& .MuiDataGrid-virtualScroller': {
-                    scrollbarWidth: isMobile ? 'none' : 'auto',
+                    // Enable smooth touch scrolling
+                    WebkitOverflowScrolling: 'touch',
+                    scrollBehavior: 'smooth',
+                    // Show scrollbars on mobile for better UX
+                    scrollbarWidth: isMobile ? 'thin' : 'auto',
                     '&::-webkit-scrollbar': {
-                      display: isMobile ? 'none' : 'block',
+                      height: isMobile ? '6px' : '8px',
+                      width: isMobile ? '6px' : '8px',
                     },
+                    '&::-webkit-scrollbar-track': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      borderRadius: '3px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      backgroundColor: (theme) =>
+                        theme.palette.primary.main + '99', // 60% opacity
+                      borderRadius: '3px',
+                      '&:hover': {
+                        backgroundColor: (theme) =>
+                          theme.palette.primary.main + 'CC', // 80% opacity
+                      },
+                    },
+                  },
+                  // Touch-friendly column resizing
+                  '& .MuiDataGrid-columnSeparator': {
+                    display: isMobile ? 'none' : 'block',
                   },
                 }}
                 onRowClick={
-                  isTablet ? (params) => handlePhotoView(params.row) : undefined
+                  isTablet && !isMobile
+                    ? (params) => handlePhotoView(params.row)
+                    : undefined
                 }
               />
             )}
