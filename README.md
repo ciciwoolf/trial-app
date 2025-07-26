@@ -18,29 +18,26 @@ For this demo, I designed the app with the vision of it being used in a middle s
 ### Overview Technologies, Familiar and New
 
 - React 19 with TypeScript
-- Material-UI (MUI) v5 (I've used Vuetify with Vue, so feels similar)
+- Material-UI (MUI) v7 (I've used Vuetify with Vue, so feels familiar)
 - Styling: MUI's styled system + custom theme
-- React Context + useReducer (or Redux Toolkit) – NEW
 - Axios
-- React Query/TanStack Query – NEW
-- Routing: React Router v6
-- Form Management: React Hook Form with Yup validation - NEW
-- Testing: Jest
-- React Testing Library - NEW
+- TanStack Query (React Query) for server state management – NEW
+- Form Management: React Hook Form with Yup validation – NEW
 - Build Tool: Vite
 
 ### Assumptions
+
 - I envisioned this demo app to be used in a Grade 8 Physical Sciences classroom.
-- Users (students and teachers) know how to navigate the web.
+- Users (students and teachers) are super tablet/desktop saavy.
 - NASA APIs are available, responsive, and do not require authentication for demo purposes.
 - The classroom has internet access.
-- The UI is designed for desktop and modern tablet browsers, but you can access the table on mobile.
+- The UI is designed for desktop and modern tablet browsers, but still looks and feels decent on mobile.
 
 ### Improvements for Future Iterations
+
 - Color palette should be improved with help of a designer
-- CSS better organized; right now there's some inline styling for quicker development
-- Add more functionality to the Data Table
-- Use routing to create a page for the Data Table
+- CSS better organized; right now I'm going with a 'Tailwind CSS' flow, using MUI sx prop for inline styling
+- Possibly use Routing to create separate pages
 
 ### Testing Error States and Empty Data States
 
@@ -58,12 +55,12 @@ Corrupt the endpoint (lines 51-57) by uncommenting out the broken endpoint, and 
 You see the Nasa Data Error message.
 ![Screenshot of NASA Data Error](public/NASA_Data_Error.png)
 
-429 
+429
 Change the VITE_NASA_API_KEY value to: DEMO_KEY
 Refresh the page multiple times; Change filters rapidly (rover, sol day, camera) - After ~30 requests, you should hit the limit!
 ![Screenshot of NASA API Limit Reached Error](public/API_Limit_Reached.png)
 
 No Data State:
-Put in 10,000 for the Sol filter. 
+Put in 10,000 for the Sol filter.
 You should see the empty data state with a message.
 ![Screenshot of No Photos Found](public/No_Photos_Found.png)
