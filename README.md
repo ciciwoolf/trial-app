@@ -15,7 +15,7 @@ npm start
 
 I designed this demo app with the vision of it being used in a middle school Physical Sciences classroom. My goal was to create an interface that is visually engaging, easy to navigate, and accessible for both students and teachers.
 
-### Overview Technologies, Familiar and New
+### Tech Stack
 
 - React 19 with TypeScript
 - Material-UI (MUI) v7+ custom theme (I've used Vuetify before, so feels familiar) 
@@ -37,7 +37,7 @@ I designed this demo app with the vision of it being used in a middle school Phy
 - Color palette and UI flow should be improved with the help of a designer
 - CSS should be better organized; right now I'm using a 'Tailwind CSS' approach, using MUI sx prop for inline styling
 - Possibly use Routing to create separate pages
--Send Mission plans somewhere to be printed, etc.
+- Send Mission plans somewhere to be printed, etc.
 
 ### Testing Error States and Empty Data States
 
