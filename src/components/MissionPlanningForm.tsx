@@ -48,8 +48,6 @@ type MissionFormData = yup.InferType<typeof missionSchema>;
 
 const ROVER_OPTIONS = [
   { value: 'curiosity', label: 'Curiosity - Advanced Laboratory' },
-  { value: 'perseverance', label: 'Perseverance - Sample Collection' },
-  { value: 'spirit', label: 'Spirit - Geological Survey' },
   { value: 'opportunity', label: 'Opportunity - Long-Range Explorer' },
 ];
 
@@ -68,7 +66,7 @@ export const MissionPlanningForm = () => {
   });
 
   const onSubmit = (data: MissionFormData) => {
-    // Save to localStorage for demo purposes
+    // Save to localStorage
     localStorage.setItem('marsMission', JSON.stringify(data));
     setMissionData(data);
     setIsSubmitted(true);
@@ -82,9 +80,15 @@ export const MissionPlanningForm = () => {
 
   if (isSubmitted && missionData) {
     return (
-      <Card sx={{ maxWidth: 600, mx: 'auto' }}>
+      <Card
+        sx={{
+          p: { xs: 2, sm: 3 },
+          maxWidth: 600,
+          mx: 'auto',
+        }}
+      >
         <CardContent>
-          <Stack spacing={3} alignItems="center">
+          <Stack spacing={{ xs: 2, sm: 3 }} alignItems="center">
             <Rocket sx={{ fontSize: 60, color: 'primary.main' }} />
             <Typography variant="h4" color="primary" gutterBottom>
               🚀 Mission Approved!
@@ -188,7 +192,9 @@ export const MissionPlanningForm = () => {
                   helperText={
                     errors.crewMembers?.message || 'Between 2-8 crew members'
                   }
-                  inputProps={{ min: 2, max: 8 }}
+                  slotProps={{
+                    htmlInput: { min: 2, max: 8 },
+                  }}
                 />
               )}
             />
@@ -205,7 +211,20 @@ export const MissionPlanningForm = () => {
                   fullWidth
                   error={!!errors.launchDate}
                   helperText={errors.launchDate?.message}
-                  InputLabelProps={{ shrink: true }}
+                  slotProps={{
+                    htmlInput: { shrink: true },
+                    inputLabel: {
+                      shrink: true,
+                      sx: {
+                        // make the mobile view better
+                        transform: {
+                          xs: 'translate(14px, -9px) scale(0.75)',
+                          sm: 'translate(14px, -9px) scale(0.75)',
+                        },
+                        transformOrigin: 'top left',
+                      },
+                    },
+                  }}
                 />
               )}
             />
@@ -250,6 +269,18 @@ export const MissionPlanningForm = () => {
                     'Describe what you hope to discover on Mars'
                   }
                   placeholder="e.g., Search for signs of past life, study Martian geology, test new technologies..."
+                  slotProps={{
+                    inputLabel: {
+                      shrink: true,
+                      sx: {
+                        transform: {
+                          xs: 'translate(14px, -12px) scale(0.75)',
+                          sm: 'translate(14px, -9px) scale(0.75)',
+                        },
+                        transformOrigin: 'top left',
+                      },
+                    },
+                  }}
                 />
               )}
             />
