@@ -12,8 +12,6 @@ import {
   Close,
   Download,
   Share,
-  Favorite,
-  FavoriteBorder,
   ZoomIn,
   ZoomOut,
 } from '@mui/icons-material';
@@ -30,7 +28,6 @@ export const PhotoDetailModal = ({
   open,
   onClose,
 }: PhotoDetailModalProps) => {
-  const [isFavorite, setIsFavorite] = useState(false);
   const [zoom, setZoom] = useState(1);
 
   if (!photo) return null;
