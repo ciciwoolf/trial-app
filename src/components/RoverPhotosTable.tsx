@@ -16,6 +16,8 @@ import {
   Avatar,
   Chip,
   Stack,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import {
   PhotoCamera,
@@ -51,6 +53,10 @@ interface RoverPhotosTableProps {
 
 // Set default filters
 export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // xs (0-600px)
+  const isTablet = useMediaQuery(theme.breakpoints.down('md')); // sm-md (600-900px)
+
   const [filters, setFilters] = useState<RoverPhotoFilters>({
     rover: 'curiosity',
     sol: 1000,
@@ -85,93 +91,119 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
     setSelectedPhoto(null);
   };
 
-  const columns: GridColDef[] = [
-    {
-      field: 'img_src',
-      headerName: 'Image',
-      width: 100,
-      sortable: false,
-      renderCell: (params) => (
-        <Avatar
-          src={params.value}
-          variant="rounded"
-          sx={{ width: 60, height: 60, cursor: 'pointer' }}
-          onClick={() => handlePhotoView(params.row)}
-        />
-      ),
-    },
-    {
-      field: 'id',
-      headerName: 'Photo ID',
-      width: 100,
-      type: 'number',
-    },
-    {
-      field: 'sol',
-      headerName: 'Sol Day',
-      width: 120,
-      type: 'number',
-      renderCell: (params) => (
-        <Chip
-          label={`Sol ${params.value}`}
-          color="primary"
-          variant="outlined"
-          size="small"
-        />
-      ),
-    },
-    {
-      field: 'earth_date',
-      headerName: 'Earth Date',
-      width: 130,
-      valueFormatter: (value) => new Date(value).toLocaleDateString(),
-    },
-    {
-      field: 'camera',
-      headerName: 'Camera',
-      width: 150,
-      valueGetter: (_: unknown, row) => row.camera.name,
-      renderCell: (params) => (
-        <Stack direction="row" spacing={1} alignItems="center">
-          <PhotoCamera fontSize="small" />
-          <Typography variant="body2">{params.value}</Typography>
-        </Stack>
-      ),
-    },
-    {
-      field: 'rover',
-      headerName: 'Rover',
-      width: 120,
-      valueGetter: (_: unknown, row) => row.rover.name,
-      renderCell: (params) => {
-        const rover = ROVERS.find(
-          (r) => r.value === params.value.toLowerCase()
-        );
-        return (
-          <Chip
-            label={params.value}
-            color={rover?.status === 'active' ? 'info' : 'default'}
-            size="small"
+  // Responsive columns based on screen size
+  const getColumns = (): GridColDef[] => {
+    const baseColumns: GridColDef[] = [
+      {
+        field: 'img_src',
+        headerName: 'Image',
+        width: isMobile ? 80 : 100,
+        flex: isMobile ? 0 : undefined,
+        sortable: false,
+        renderCell: (params) => (
+          <Avatar
+            src={params.value}
+            variant="rounded"
+            sx={{
+              width: isMobile ? 50 : 60,
+              height: isMobile ? 50 : 60,
+              cursor: 'pointer',
+            }}
+            onClick={() => handlePhotoView(params.row)}
           />
-        );
+        ),
       },
-    },
-    {
-      field: 'actions',
-      headerName: 'Actions',
-      width: 120,
-      sortable: false,
-      renderCell: (params) => (
-        <Button
-          startIcon={<Visibility />}
-          size="small"
-          onClick={() => handlePhotoView(params.row)}
-        >
-          View
-        </Button>
-      ),
-    },
-  ];
+      {
+        field: 'sol',
+        headerName: 'Sol Day',
+        width: isTablet ? 100 : 120,
+        flex: isTablet ? 1 : undefined,
+        type: 'number',
+        renderCell: (params) => (
+          <Chip
+            label={`Sol ${params.value}`}
+            color="primary"
+            variant="outlined"
+            size={isMobile ? 'small' : 'small'}
+          />
+        ),
+      },
+      {
+        field: 'earth_date',
+        headerName: isMobile ? 'Date' : 'Earth Date',
+        width: isTablet ? 110 : 130,
+        flex: isTablet ? 1 : undefined,
+        valueFormatter: (value) => new Date(value).toLocaleDateString(),
+      },
+      {
+        field: 'camera',
+        headerName: 'Camera',
+        width: isTablet ? 120 : 150,
+        flex: isTablet ? 1 : undefined,
+        valueGetter: (_: unknown, row) => row.camera.name,
+        renderCell: (params) => (
+          <Stack direction="row" spacing={1} alignItems="center">
+            {!isMobile && <PhotoCamera fontSize="small" />}
+            <Typography
+              variant="body2"
+              sx={{ fontSize: isMobile ? '0.75rem' : '0.875rem' }}
+            >
+              {params.value}
+            </Typography>
+          </Stack>
+        ),
+      },
+      {
+        field: 'rover',
+        headerName: 'Rover',
+        width: isTablet ? 100 : 120,
+        flex: isTablet ? 1 : undefined,
+        valueGetter: (_: unknown, row) => row.rover.name,
+        renderCell: (params) => {
+          const rover = ROVERS.find(
+            (r) => r.value === params.value.toLowerCase()
+          );
+          return (
+            <Chip
+              label={params.value}
+              color={rover?.status === 'active' ? 'info' : 'default'}
+              size="small"
+            />
+          );
+        },
+      },
+    ];
+
+    // Add desktop-only columns
+    if (!isTablet) {
+      baseColumns.splice(1, 0, {
+        field: 'id',
+        headerName: 'Photo ID',
+        width: 100,
+        type: 'number',
+      });
+
+      baseColumns.push({
+        field: 'actions',
+        headerName: 'Actions',
+        width: 120,
+        sortable: false,
+        renderCell: (params) => (
+          <Button
+            startIcon={<Visibility />}
+            size="small"
+            onClick={() => handlePhotoView(params.row)}
+          >
+            View
+          </Button>
+        ),
+      });
+    }
+
+    return baseColumns;
+  };
+
+  const columns = getColumns();
 
   // Handle errors
   if (error) {
@@ -226,13 +258,24 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
 
           {/* Filters */}
           <Box sx={{ mb: 3 }}>
-            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-              <FormControl sx={{ minWidth: 200 }}>
+            <Stack
+              direction={{ xs: 'column', sm: 'column', md: 'row' }}
+              spacing={2}
+              flexWrap="wrap"
+              useFlexGap
+            >
+              <FormControl
+                sx={{
+                  minWidth: { xs: '100%', sm: 200, md: 200 },
+                  flex: { md: 1 },
+                }}
+              >
                 <InputLabel>Rover</InputLabel>
                 <Select
                   value={filters.rover}
                   label="Rover"
                   onChange={(e) => handleFilterChange('rover', e.target.value)}
+                  size={isMobile ? 'medium' : 'medium'}
                 >
                   {ROVERS.map((rover) => (
                     <MenuItem key={rover.value} value={rover.value}>
@@ -242,17 +285,25 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                 </Select>
               </FormControl>
 
-              <FormControl sx={{ minWidth: 200 }}>
+              <FormControl
+                sx={{
+                  minWidth: { xs: '100%', sm: 200, md: 200 },
+                  flex: { md: 1 },
+                }}
+              >
                 <InputLabel>Camera</InputLabel>
                 <Select
                   value={filters.camera || ''}
                   label="Camera"
                   onChange={(e) => handleFilterChange('camera', e.target.value)}
+                  size={isMobile ? 'medium' : 'medium'}
                 >
                   <MenuItem value="">All Cameras</MenuItem>
                   {CAMERAS.map((camera) => (
                     <MenuItem key={camera.value} value={camera.value}>
-                      {camera.value} - {camera.label}
+                      {isMobile
+                        ? camera.value
+                        : `${camera.value} - ${camera.label}`}
                     </MenuItem>
                   ))}
                 </Select>
@@ -268,8 +319,12 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                     e.target.value ? parseInt(e.target.value) : undefined
                   )
                 }
-                sx={{ minWidth: 150 }}
-                helperText="Martian day number"
+                sx={{
+                  minWidth: { xs: '100%', sm: 150, md: 150 },
+                  flex: { md: 1 },
+                }}
+                helperText={isMobile ? 'Mars day' : 'Martian day number'}
+                size={isMobile ? 'medium' : 'medium'}
               />
 
               <TextField
@@ -279,8 +334,12 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                 onChange={(e) =>
                   handleFilterChange('earth_date', e.target.value)
                 }
-                sx={{ minWidth: 180 }}
+                sx={{
+                  minWidth: { xs: '100%', sm: 180, md: 180 },
+                  flex: { md: 1 },
+                }}
                 InputLabelProps={{ shrink: true }}
+                size={isMobile ? 'medium' : 'medium'}
               />
 
               <Button
@@ -289,6 +348,11 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                   setFilters({ rover: 'curiosity', sol: 1000 });
                   setPaginationModel({ page: 0, pageSize: 10 });
                 }}
+                sx={{
+                  minWidth: { xs: '100%', sm: 'auto' },
+                  height: { xs: 56, sm: 56 }, // Match input height
+                }}
+                size={isMobile ? 'large' : 'medium'}
               >
                 Reset Filters
               </Button>
@@ -296,8 +360,15 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
           </Box>
 
           {/* Data Grid */}
-          {/* Data Grid */}
-          <Box sx={{ height: 600, maxHeight: '80vh', overflowY: 'auto' }}>
+          <Box
+            sx={{
+              height: { xs: 500, sm: 550, md: 600 },
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              // Better touch scrolling on mobile
+              WebkitOverflowScrolling: 'touch',
+            }}
+          >
             {isLoading ? (
               <LoadingSpinner message="Loading Mars rover photos..." />
             ) : !data || data.photos.length === 0 ? (
@@ -347,6 +418,7 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                 onPaginationModelChange={setPaginationModel}
                 pageSizeOptions={[10, 25, 50, 100]}
                 disableRowSelectionOnClick
+                rowHeight={isMobile ? 70 : isTablet ? 65 : 60}
                 sx={{
                   '& .MuiDataGrid-row:hover': {
                     backgroundColor: 'rgba(255, 215, 0, 0.1)',
@@ -354,7 +426,29 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                   '& .MuiDataGrid-cell:focus': {
                     outline: 'none',
                   },
+                  '& .MuiDataGrid-cell': {
+                    padding: isMobile ? '8px 4px' : '8px',
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                  },
+                  '& .MuiDataGrid-columnHeader': {
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
+                    fontWeight: 600,
+                  },
+                  // Better touch targets on mobile/tablet
+                  '& .MuiDataGrid-row': {
+                    cursor: isTablet ? 'pointer' : 'default',
+                  },
+                  // Hide scrollbars on mobile for cleaner look
+                  '& .MuiDataGrid-virtualScroller': {
+                    scrollbarWidth: isMobile ? 'none' : 'auto',
+                    '&::-webkit-scrollbar': {
+                      display: isMobile ? 'none' : 'block',
+                    },
+                  },
                 }}
+                onRowClick={
+                  isTablet ? (params) => handlePhotoView(params.row) : undefined
+                }
               />
             )}
           </Box>
