@@ -6,6 +6,7 @@ import {
   Box,
   Link,
 } from '@mui/material';
+import { gradients } from '../theme/theme';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -21,8 +22,7 @@ export const Layout = ({ children }: LayoutProps) => {
         height: '100vh',
         overflowX: 'hidden',
         overflowY: 'auto',
-        backgroundImage:
-          'linear-gradient(to bottom, #000811, #001122, #000d1a, #000508)',
+        backgroundImage: gradients.spaceBackground,
       }}
     >
       <AppBar

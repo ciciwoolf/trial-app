@@ -32,9 +32,9 @@
   left: 0;
   background: linear-gradient(
     to bottom,
-      rgba(255, 255, 255, 0) 0%,
-      #ffffff 75%,
-      #ffffff 100%
+    rgba(255, 255, 255, 0) 0%,
+    var(--color-white) 75%,
+    var(--color-white) 100%
   );
   animation: drop 7s infinite;
   animation-fill-mode: forwards;

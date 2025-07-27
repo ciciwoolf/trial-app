@@ -7,9 +7,25 @@ const customColors = {
   brightBlue: '#00B4D8',
   darkBlue: '#011F5B',
   charcoal: '#2D3748',
+  // Background gradient colors
+  spaceGradient1: '#001122',
+  spaceGradient2: '#04192e',
+  spaceGradient3: '#000508',
+  // Card gradient colors
+  cardGradient1: '#011c57',
+  cardGradient2: '#011a54',
+  cardGradient3: '#001750',
+  cardGradient4: '#00154d',
+};
+
+// Gradient helper functions
+const gradients = {
+  spaceBackground: `linear-gradient(to bottom, ${customColors.richBlack}, ${customColors.spaceGradient1}, ${customColors.spaceGradient2}, ${customColors.spaceGradient3})`,
+  cardBackground: `linear-gradient(to right top, ${customColors.darkBlue}, ${customColors.cardGradient1}, ${customColors.cardGradient2}, ${customColors.cardGradient3}, ${customColors.cardGradient4})`,
 };
 
 export const customTheme = createTheme({
+  cssVariables: true,
   palette: {
     mode: 'dark',
     primary: {
@@ -94,13 +110,12 @@ export const customTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundImage:
-            'linear-gradient(to right top, #011f5b, #011c57, #011a54, #001750, #00154d)',
+          backgroundImage: gradients.cardBackground,
           border: `1px solid ${customColors.deepOrange}`,
-          color: '#FFFFFF',
+          color: customColors.white,
           '&:hover': {
             border: `1px solid ${customColors.white}`,
-            boxShadow: `0 4px 20px rgba(255, 215, 0, 0.3)`,
+            boxShadow: `0 4px 20px ${customColors.deepOrange}40`, // Using hex with 40 = ~25% opacity
           },
         },
       },
@@ -108,8 +123,7 @@ export const customTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundImage:
-            'linear-gradient(to right top, #011f5b, #011c57, #011a54, #001750, #00154d)',
+          backgroundImage: gradients.cardBackground,
         },
       },
     },
@@ -130,5 +144,16 @@ export const customTheme = createTheme({
         },
       },
     },
+    MuiCssBaseline: {
+      styleOverrides: {
+        ':root': {
+          '--color-rich-black': customColors.richBlack,
+          '--color-white': customColors.white,
+          '--gradient-space-background': gradients.spaceBackground,
+        },
+      },
+    },
   },
 });
+
+export { customColors, gradients };
