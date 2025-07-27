@@ -2,7 +2,17 @@
 
 ### Getting Started
 
-Clone this repo and run:
+Clone this repo, and set up a .env file:
+
+```
+VITE_NASA_API_KEY=your_nasa_api_key_here
+VITE_NASA_BASE_URL=https://api.nasa.gov
+
+# Get a free API key at: https://api.nasa.gov
+# For testing, you can use DEMO_KEY
+```
+
+Then run:
 
 ```
 npm i
