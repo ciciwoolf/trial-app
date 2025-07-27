@@ -95,23 +95,7 @@ npm run cypress:run
 
 1. Start the development server: `npm start`
 2. In another terminal, run: `npm run cypress:open`
-3. Click on test files to run them
-
-**To run tests:**
-
-1. Start the development server: `npm start`
-2. In another terminal, run: `npm run cypress:open`
 3. Click on `homepage.cy.ts` to run the HomePage tests
-
-**Current test coverage:**
-
-- ✅ HomePage renders correctly
-- ✅ Main components are visible
-- ✅ Falling stars animation works
-- ✅ Responsive design on mobile/tablet/desktop
-- ✅ Mission planning modal interaction
-- ✅ Start Exploring button functionality
-- ✅ Basic accessibility checks
 
 ### Improvements for Future Iterations
 
