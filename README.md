@@ -19,6 +19,10 @@ npm i
 npm start
 ```
 
+1. Click 'START EXPLORING' - View table with filters and pagination. Check different error and empty data states.
+2. Click on a photo or View icon to activate the modal component. 
+3. Click on 'Return to Dashboard'. Click on PLAN MISSION. Use the form to submit a mission plan.
+
 ### Description of Approach and Design Decisions
 
 My Science Museum of Minnesota background and the educational potential of NASA's API inspired the design of this demo app: an educational tool for middle school Physical Sciences classrooms. My goal was to create an interface that captivates kids and adults alike, offers intuitive navigation, and sparks curiosity about research.
