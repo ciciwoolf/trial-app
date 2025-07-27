@@ -92,7 +92,7 @@ export const customTheme = createTheme({
           '&:hover': {
             backgroundColor: customColors.white,
             color: customColors.richBlack,
-            border: `2px solid ${customColors.deepOrange}`,
+            border: `1px solid ${customColors.deepOrange}`,
           },
         },
         outlined: {
@@ -102,7 +102,7 @@ export const customTheme = createTheme({
           '&:hover': {
             backgroundColor: customColors.white,
             color: customColors.richBlack,
-            border: `2px solid ${customColors.deepOrange}`,
+            border: `1px solid ${customColors.deepOrange}`,
           },
         },
       },
