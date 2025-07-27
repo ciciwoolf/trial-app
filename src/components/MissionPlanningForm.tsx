@@ -203,26 +203,34 @@ export const MissionPlanningForm = () => {
             <Controller
               name="launchDate"
               control={control}
+              defaultValue={undefined}
               render={({ field }) => (
                 <TextField
                   {...field}
+                  value={
+                    field.value
+                      ? new Date(field.value).toISOString().split('T')[0]
+                      : ''
+                  }
+                  onChange={(e) =>
+                    field.onChange(
+                      e.target.value ? new Date(e.target.value) : undefined
+                    )
+                  }
                   label="Launch Date"
                   type="date"
                   fullWidth
                   error={!!errors.launchDate}
                   helperText={errors.launchDate?.message}
-                  slotProps={{
-                    htmlInput: { shrink: true },
-                    inputLabel: {
-                      shrink: true,
-                      sx: {
-                        // make the mobile view better
-                        transform: {
-                          xs: 'translate(14px, -9px) scale(0.75)',
-                          sm: 'translate(14px, -9px) scale(0.75)',
-                        },
-                        transformOrigin: 'top left',
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: {
+                      // make the mobile view better
+                      transform: {
+                        xs: 'translate(14px, -9px) scale(0.75)',
+                        sm: 'translate(14px, -9px) scale(0.75)',
                       },
+                      transformOrigin: 'top left',
                     },
                   }}
                 />
@@ -269,16 +277,14 @@ export const MissionPlanningForm = () => {
                     'Describe what you hope to discover on Mars'
                   }
                   placeholder="e.g., Search for signs of past life, study Martian geology, test new technologies..."
-                  slotProps={{
-                    inputLabel: {
-                      shrink: true,
-                      sx: {
-                        transform: {
-                          xs: 'translate(14px, -12px) scale(0.75)',
-                          sm: 'translate(14px, -9px) scale(0.75)',
-                        },
-                        transformOrigin: 'top left',
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: {
+                      transform: {
+                        xs: 'translate(14px, -12px) scale(0.75)',
+                        sm: 'translate(14px, -9px) scale(0.75)',
                       },
+                      transformOrigin: 'top left',
                     },
                   }}
                 />
