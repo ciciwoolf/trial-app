@@ -507,10 +507,10 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
           </Box>
 
           {/* Results Info - Only show when we have data */}
-          {data && data.photos.length > 0 && (
+          {data && data.photos?.length > 0 && (
             <Box sx={{ mt: 2, textAlign: 'center' }}>
               <Typography variant="body2" color="text.secondary">
-                Showing {data.photos.length} photos from {filters.rover} rover
+                Showing {data.photos?.length} photos from {filters.rover} rover
                 {filters.sol && ` on Sol ${filters.sol}`}
                 {filters.earth_date && ` on ${filters.earth_date}`}
               </Typography>
