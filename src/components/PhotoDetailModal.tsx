@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -14,6 +14,7 @@ import {
   Share,
   ZoomIn,
   ZoomOut,
+  BrokenImage,
 } from '@mui/icons-material';
 import type { RoverPhoto } from '../types/nasa';
 
@@ -29,10 +30,37 @@ export const PhotoDetailModal = ({
   onClose,
 }: PhotoDetailModalProps) => {
   const [zoom, setZoom] = useState(1);
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+  // Reset states when photo changes
+  useEffect(() => {
+    if (photo) {
+      setImageError(false);
+      setImageLoading(true);
+      setZoom(1);
+    }
+  }, [photo]);
 
   if (!photo) return null;
 
+  // Reset image states when photo changes
+  const handleImageLoad = () => {
+    setImageLoading(false);
+    setImageError(false);
+  };
+
+  const handleImageError = () => {
+    setImageLoading(false);
+    setImageError(true);
+  };
+
   const handleDownload = () => {
+    if (imageError) {
+      // If image failed to load, copy the URL instead
+      navigator.clipboard.writeText(photo.img_src);
+      return;
+    }
+
     const link = document.createElement('a');
     link.href = photo.img_src;
     link.download = `mars-photo-${photo.id}.jpg`;
@@ -116,50 +144,98 @@ export const PhotoDetailModal = ({
             maxWidth: '100%',
           }}
         >
-          <img
-            src={photo.img_src}
-            alt={`Mars photo from ${photo.rover.name} rover`}
-            style={{
-              width: '100%',
-              height: '350px',
-              maxWidth: '100%',
-              maxHeight: '350px',
-              objectFit: 'contain',
-              background: 'black',
-              transform: `scale(${zoom})`,
-              transition: 'transform 0.3s ease',
-              cursor: zoom > 1 ? 'zoom-out' : 'zoom-in',
-              display: 'block',
-            }}
-            onClick={() => setZoom(zoom > 1 ? 1 : 2)}
-          />
+          {imageError ? (
+            // Fallback UI for broken images
+            <Box
+              sx={{
+                width: '100%',
+                height: '350px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'grey.900',
+                color: 'grey.400',
+                borderRadius: 1,
+              }}
+            >
+              <BrokenImage sx={{ fontSize: 64, mb: 2 }} />
+              <Typography variant="h6" gutterBottom>
+                Image Not Available
+              </Typography>
+              <Typography variant="body2" sx={{ textAlign: 'center', px: 2 }}>
+                The Mars photo could not be loaded. This may be due to a
+                temporary NASA server issue.
+              </Typography>
+            </Box>
+          ) : (
+            <>
+              {imageLoading && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '350px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'grey.900',
+                    color: 'grey.400',
+                  }}
+                >
+                  <Typography>Loading image...</Typography>
+                </Box>
+              )}
+              <img
+                src={photo.img_src}
+                alt={`Mars photo from ${photo.rover.name} rover`}
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                style={{
+                  width: '100%',
+                  height: '350px',
+                  maxWidth: '100%',
+                  maxHeight: '350px',
+                  objectFit: 'contain',
+                  background: 'black',
+                  transform: `scale(${zoom})`,
+                  transition: 'transform 0.3s ease',
+                  cursor: zoom > 1 ? 'zoom-out' : 'zoom-in',
+                  display: imageLoading ? 'none' : 'block',
+                }}
+                onClick={() => setZoom(zoom > 1 ? 1 : 2)}
+              />
 
-          {/* Zoom Controls */}
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 16,
-              right: 16,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 1,
-            }}
-          >
-            <IconButton
-              onClick={() => setZoom((prev) => Math.min(prev + 0.5, 3))}
-              sx={{ backgroundColor: 'rgba(0,0,0,0.7)', color: 'white' }}
-              size="small"
-            >
-              <ZoomIn />
-            </IconButton>
-            <IconButton
-              onClick={() => setZoom((prev) => Math.max(prev - 0.5, 0.5))}
-              sx={{ backgroundColor: 'rgba(0,0,0,0.7)', color: 'white' }}
-              size="small"
-            >
-              <ZoomOut />
-            </IconButton>
-          </Box>
+              {/* Zoom Controls - only show when image is loaded */}
+              {!imageLoading && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                  }}
+                >
+                  <IconButton
+                    onClick={() => setZoom((prev) => Math.min(prev + 0.5, 3))}
+                    sx={{ backgroundColor: 'rgba(0,0,0,0.7)', color: 'white' }}
+                    size="small"
+                  >
+                    <ZoomIn />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => setZoom((prev) => Math.max(prev - 0.5, 0.5))}
+                    sx={{ backgroundColor: 'rgba(0,0,0,0.7)', color: 'white' }}
+                    size="small"
+                  >
+                    <ZoomOut />
+                  </IconButton>
+                </Box>
+              )}
+            </>
+          )}
         </Box>
 
         {/* RIGHT BOX - Three Sections Stacked */}
@@ -266,7 +342,7 @@ export const PhotoDetailModal = ({
               variant="outlined"
               sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
-              Download
+              {imageError ? 'Copy URL' : 'Download'}
             </Button>
             <Button
               variant="contained"

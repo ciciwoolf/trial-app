@@ -1,6 +1,6 @@
 ## NASA Data Explorer - Demo App
 
-### Setup and Installation
+### Getting Started
 
 Clone this repo and run:
 
@@ -11,12 +11,12 @@ npm start
 
 ### Description of Approach and Design Decisions
 
-I designed this demo app with the vision of it being used in a middle school Physical Sciences classroom. My goal was to create an interface that is visually engaging, easy to navigate, and accessible for both students and teachers.
+My Science Museum of Minnesota background and the educational potential of NASA's API inspired the design of this demo app: an educational tool for middle school Physical Sciences classrooms. My goal was to create an interface that captivates kids and adults alike, offers intuitive navigation, and sparks curiosity about research.
 
 ### Tech Stack
 
 - React 19 with TypeScript
-- Material-UI (MUI) v7+ custom theme (I've used Vuetify before, so feels familiar) 
+- Material-UI (MUI) v7+ custom theme (I've used Vuetify before, so feels familiar)
 - Axios
 - TanStack Query (React Query) for server state management – NEW
 - Form Management: React Hook Form with Yup validation – NEW
@@ -29,13 +29,6 @@ I designed this demo app with the vision of it being used in a middle school Phy
 - NASA APIs are available, responsive, and do not require authentication for demo purposes.
 - The classroom has internet access.
 - The UI is designed for desktop and modern tablet browsers, but still looks and feels good on mobile.
-
-### Improvements for Future Iterations
-
-- Color palette and UI flow should be improved with the help of a designer
-- CSS should be better organized; right now I'm using a 'Tailwind CSS' approach, using MUI sx prop for inline styling
-- Possibly use Routing to create separate pages
-- Send Mission plans somewhere to be printed, etc.
 
 ### Testing Error States and Empty Data States
 
@@ -70,3 +63,47 @@ Put in 10,000 for the Sol filter.
 You should see the empty data state with a message.
 
 ![Screenshot of No Photos Found](public/No_Photos_Found.png)
+
+### Testing
+
+This project includes Cypress end-to-end testing with TypeScript configuration:
+
+```bash
+# Open Cypress Test Runner (interactive)
+npm run cypress:open
+
+# Run tests in headless mode
+npm run cypress:run
+
+```
+
+**To run tests:**
+
+1. Start the development server: `npm start`
+2. In another terminal, run: `npm run cypress:open`
+3. Click on test files to run them
+
+**To run tests:**
+
+1. Start the development server: `npm start`
+2. In another terminal, run: `npm run cypress:open`
+3. Click on `homepage.cy.ts` to run the HomePage tests
+
+**Current test coverage:**
+
+- ✅ HomePage renders correctly
+- ✅ Main components are visible
+- ✅ Falling stars animation works
+- ✅ Responsive design on mobile/tablet/desktop
+- ✅ Mission planning modal interaction
+- ✅ Start Exploring button functionality
+- ✅ Basic accessibility checks
+
+### Improvements for Future Iterations
+
+- Color palette and UI flow should be improved with the help of a designer
+- CSS should be better organized; right now I'm using a 'Tailwind CSS' approach, using MUI sx prop for inline styling but this wouldn't scale well
+- Possibly use Routing to create separate pages
+- Send Mission plans somewhere to be printed, etc.
+- Unit Test Suite should be added to test modular function logic
+- Integration Tests should be added to test API features

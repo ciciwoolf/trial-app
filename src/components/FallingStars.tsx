@@ -1,6 +1,6 @@
 import './falling-stars.css';
 
-const starCount = 5;
+const starCount = 7;
 
 export default function FallingStars() {
   return (
