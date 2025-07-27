@@ -11,7 +11,7 @@ npm start
 
 ### Description of Approach and Design Decisions
 
-I designed this demo app with the vision of it being used in a middle school Physical Sciences classroom. My goal was to create an interface that is visually engaging, easy to navigate, and accessible for both students and teachers.
+My Science Museum of Minnesota background and the educational potential of NASA's API inspired the design of this demo app: an educational tool for middle school Physical Sciences classrooms. My goal was to create an interface that captivates kids and adults alike, offers intuitive navigation, and sparks curiosity about research.
 
 ### Tech Stack
 
@@ -33,9 +33,10 @@ I designed this demo app with the vision of it being used in a middle school Phy
 ### Improvements for Future Iterations
 
 - Color palette and UI flow should be improved with the help of a designer
-- CSS should be better organized; right now I'm using a 'Tailwind CSS' approach, using MUI sx prop for inline styling
+- CSS should be better organized; right now I'm using a 'Tailwind CSS' approach, using MUI sx prop for inline styling but this wouldn't scale well
 - Possibly use Routing to create separate pages
 - Send Mission plans somewhere to be printed, etc.
+- Test Suites should be fleshed out
 
 ### Testing Error States and Empty Data States
 

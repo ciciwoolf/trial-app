@@ -347,21 +347,6 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
                 size={isMobile ? 'medium' : 'medium'}
               />
 
-              <TextField
-                label="Earth Date"
-                type="date"
-                value={filters.earth_date || ''}
-                onChange={(e) =>
-                  handleFilterChange('earth_date', e.target.value)
-                }
-                sx={{
-                  minWidth: { xs: '100%', sm: 180, md: 180 },
-                  flex: { md: 1 },
-                }}
-                InputLabelProps={{ shrink: true }}
-                size={isMobile ? 'medium' : 'medium'}
-              />
-
               <Button
                 variant="outlined"
                 onClick={() => {
