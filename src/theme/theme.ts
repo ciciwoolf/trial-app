@@ -85,6 +85,11 @@ export const customTheme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
+        root: {
+          userSelect: 'none', // Prevent text selection on click and hold
+          WebkitUserSelect: 'none', // Safari/Chrome support
+          MozUserSelect: 'none', // Firefox support
+        },
         contained: {
           backgroundColor: customColors.deepOrange,
           color: customColors.white,
@@ -150,6 +155,10 @@ export const customTheme = createTheme({
           '--color-rich-black': customColors.richBlack,
           '--color-white': customColors.white,
           '--gradient-space-background': gradients.spaceBackground,
+        },
+        // Ensure smooth scrolling
+        html: {
+          scrollBehavior: 'smooth',
         },
       },
     },
