@@ -32,7 +32,6 @@ export const PhotoDetailModal = ({
   const [zoom, setZoom] = useState(1);
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-  console.log('photo:', JSON.stringify(photo, null, 2));
   // Reset states when photo changes
   useEffect(() => {
     if (photo) {
