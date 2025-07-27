@@ -9,7 +9,7 @@ import type {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const API_KEY = import.meta.env.VITE_NASA_API_KEY;
-const BASE_URL = import.meta.env.VITE_NASA_BASE_URL;
+const BASE_URL = import.meta.env.VITE_NASA_BASE_URL || 'https://api.nasa.gov';
 
 class NASAApiService {
   private api = axios.create({
@@ -18,6 +18,12 @@ class NASAApiService {
   });
 
   constructor() {
+    // Check if API key is missing
+    if (!API_KEY) {
+      console.warn(
+        'NASA API key is not configured. Please check your .env file.'
+      );
+    }
     // Add response interceptor - catches all axios errors
     this.api.interceptors.response.use(
       (response: AxiosResponse) => response,
@@ -36,6 +42,16 @@ class NASAApiService {
   async getRoverPhotos(
     filters: RoverPhotoFilters
   ): Promise<RoverPhotosResponse> {
+    // Check if API key is missing before making the request
+    if (!API_KEY) {
+      throw {
+        message:
+          'NASA API key is not configured. Please create a .env file with VITE_NASA_API_KEY.',
+        status: 500,
+        code: 'CONFIG_ERROR',
+      };
+    }
+
     const { rover, sol, earth_date, camera, page = 1 } = filters;
 
     const params: any = {
@@ -60,6 +76,15 @@ class NASAApiService {
   }
 
   private handleError(error: any): NASAApiError {
+    // Handle missing API key configuration
+    if (error.code === 'CONFIG_ERROR') {
+      return {
+        message: error.message,
+        status: error.status,
+        code: error.code,
+      };
+    }
+
     if (error.response?.status === 429) {
       return {
         message: 'NASA API rate limit exceeded. Please try again later.',

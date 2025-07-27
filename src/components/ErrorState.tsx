@@ -11,6 +11,7 @@ import {
   SignalWifiOff,
   SentimentDissatisfied,
   Satellite,
+  Settings,
 } from '@mui/icons-material';
 
 interface ErrorStateProps {
@@ -18,7 +19,7 @@ interface ErrorStateProps {
   message?: string;
   onRetry?: () => void;
   retryable?: boolean;
-  type?: 'network' | 'api' | 'not-found' | 'generic';
+  type?: 'network' | 'api' | 'not-found' | 'config' | 'generic';
 }
 
 export const ErrorState = ({ 
@@ -48,6 +49,12 @@ export const ErrorState = ({
           icon: <SentimentDissatisfied sx={{ fontSize: 80, color: 'info.main' }} />,
           defaultTitle: 'No Data Found',
           defaultMessage: 'No photos found for the selected filters. Try adjusting your search criteria.',
+        };
+      case 'config':
+        return {
+          icon: <Settings sx={{ fontSize: 80, color: 'warning.main' }} />,
+          defaultTitle: 'Configuration Required',
+          defaultMessage: 'NASA API is not configured. Please set up your environment variables to continue.',
         };
       default:
         return {
@@ -104,5 +111,15 @@ export const NoDataError = ({ onReset }: { onReset?: () => void }) => (
     type="not-found" 
     onRetry={onReset}
     retryable={!!onReset}
+  />
+);
+
+export const ConfigurationError = ({ onRetry }: { onRetry?: () => void }) => (
+  <ErrorState 
+    type="config" 
+    title="NASA API Setup Required"
+    message="To use this application, you need to configure your NASA API key. Create a .env file in the project root and add your VITE_NASA_API_KEY."
+    onRetry={onRetry}
+    retryable={false}
   />
 );

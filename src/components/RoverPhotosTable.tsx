@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { ErrorState, NetworkError, APILimitError } from './ErrorState';
+import {
+  ErrorState,
+  NetworkError,
+  APILimitError,
+  ConfigurationError,
+} from './ErrorState';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef, GridPaginationModel } from '@mui/x-data-grid';
 import {
@@ -29,7 +34,11 @@ import {
 import { useRoverPhotos } from '../hooks/useRoverPhotos';
 import { LoadingSpinner } from './LoadingSpinner';
 import { PhotoDetailModal } from './PhotoDetailModal';
-import type { RoverPhoto, RoverPhotoFilters } from '../types/nasa';
+import type {
+  RoverPhoto,
+  RoverPhotoFilters,
+  NASAApiError,
+} from '../types/nasa';
 
 // https://api.nasa.gov/ - Mars Rover Photos section
 const ROVERS = [
@@ -236,6 +245,14 @@ export const RoverPhotosTable = ({ onReset }: RoverPhotosTableProps) => {
 
     if (errorMessage.includes('network') || errorMessage.includes('timeout')) {
       return <NetworkError onRetry={() => refetch()} />;
+    }
+
+    // Check if it's a configuration error (missing API key)
+    if (
+      (error as NASAApiError)?.code === 'CONFIG_ERROR' ||
+      errorMessage.includes('api key is not configured')
+    ) {
+      return <ConfigurationError />;
     }
 
     // Generic error fallback
